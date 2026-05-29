@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+    <meta name="description" content="Descriptive writing practice for Class 5-8 students. 25 topics, 10 keywords each, voice recording, and model answers. Improve English writing skills with fun audio activities.">
+    <meta name="theme-color" content="#3b82f6">
+    <title>Descriptive Writing Lab | Voice Practice for Kids (Grades 5-8)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: linear-gradient(135deg, #eef2ff 0%, #f9fafb 100%);
+            font-family: 'Segoe UI', 'Roboto', system-ui, -apple-system, 'Inter', sans-serif;
+            padding: 1rem;
+            min-height: 100vh;
+            color: #0f172a;
+        }
+
+        .app-container {
+            max-width: 750px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 2rem;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: #3b82f6;
+            padding: 1.5rem 1.2rem;
+            color: white;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+
+        .header p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-top: 6px;
+        }
+
+        .topic-selector {
+            padding: 1rem 1.2rem;
+            background: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: 2rem;
+            border: 1px solid #cbd5e1;
+            background: #ffffff;
+            font-family: inherit;
+            cursor: pointer;
+            outline: none;
+        }
+
+        select:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
+        }
+
+        .progress-section {
+            background: #f1f5f9;
+            padding: 0.7rem 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            font-weight: 600;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.9rem;
+        }
+
+        .badge {
+            background: #10b981;
+            color: white;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+        }
+
+        .keywords-grid {
+            padding: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-height: 55vh;
+            overflow-y: auto;
+        }
+
+        .keyword-card {
+            background: #ffffff;
+            border-radius: 1.8rem;
+            padding: 0.8rem 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            border: 1px solid #eef2ff;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.7rem;
+            transition: 0.1s;
+        }
+
+        .keyword-info {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            flex: 2;
+            min-width: 140px;
+        }
+
+        .keyword-number {
+            background: #dbeafe;
+            color: #1e40af;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 60px;
+            font-weight: bold;
+        }
+
+        .keyword-label {
+            font-weight: 700;
+            font-size: 1rem;
+            color: #0f172a;
+            word-break: break-word;
+        }
+
+        .audio-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .btn-icon {
+            background: #f1f5f9;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: inherit;
+        }
+
+        .btn-record {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+        .btn-record.recording-active {
+            background: #ef4444;
+            color: white;
+            animation: pulse 1s infinite;
+        }
+        .btn-stop {
+            background: #e2e3e5;
+            color: #334155;
+        }
+        .btn-play {
+            background: #dcfce7;
+            color: #15803d;
+        }
+        .btn-play:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 20px;
+            background: #cbd5e1;
+            display: inline-block;
+        }
+        .status-dot.recorded {
+            background: #22c55e;
+            box-shadow: 0 0 0 2px #bbf7d0;
+        }
+
+        .showme-section {
+            padding: 1rem 1.2rem 1.5rem;
+            background: white;
+            border-top: 2px dashed #cbd5e1;
+        }
+
+        .btn-show {
+            width: 100%;
+            background: #f97316;
+            color: white;
+            font-size: 1.3rem;
+            font-weight: bold;
+            padding: 1rem;
+            border: none;
+            border-radius: 3rem;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-bottom: 1rem;
+            font-family: inherit;
+            box-shadow: 0 6px 0 #c2410c;
+            transform: translateY(-2px);
+        }
+        .btn-show:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #c2410c;
+        }
+
+        .model-lines {
+            background: #fffbeb;
+            border-radius: 1.5rem;
+            padding: 1.2rem;
+            border-left: 8px solid #f97316;
+        }
+
+        .model-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 0.7rem;
+            color: #9a3412;
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .lines-container {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .lines-container li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #ffe4c4;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .footer-note {
+            text-align: center;
+            font-size: 0.7rem;
+            padding: 0.8rem;
+            color: #475569;
+            background: #f1f5f9;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+
+        @media (max-width: 550px) {
+            .keyword-card {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .audio-actions {
+                justify-content: flex-start;
+            }
+            .header h1 {
+                font-size: 1.4rem;
+            }
+        }
+        .permission-warning {
+            background: #fff3cd;
+            color: #856404;
+            padding: 0.6rem;
+            border-radius: 1rem;
+            margin: 0.5rem 1rem;
+            font-size: 0.8rem;
+            text-align: center;
+        }
+        button:disabled {
+            opacity: 0.6;
+            cursor: default;
+        }
+    </style>
+</head>
+<body>
+<div class="app-container">
+    <div class="header">
+        <h1>✍️ Descriptive Writing Lab</h1>
+        <p>Grades 5-8 | 25 Topics | Voice Record Keywords | See Model Answer</p>
+    </div>
+
+    <div class="topic-selector">
+        <label for="topicSelect" style="font-weight:600; margin-right:0.5rem;">📚 Choose Topic: </label>
+        <select id="topicSelect"></select>
+    </div>
+
+    <div class="progress-section">
+        <span>🎙️ Progress: <span id="recordedCount">0</span> / <span id="totalKeywords">10</span> words recorded</span>
+        <span class="badge">Complete all, click "Show Me"</span>
+    </div>
+
+    <div id="keywordsContainer" class="keywords-grid">
+        <div style="text-align:center; padding:2rem;">Loading topics...</div>
+    </div>
+
+    <div class="showme-section">
+        <button id="showMeBtn" class="btn-show">✨ Show Me (Model Answer) ✨</button>
+        <div id="modelDisplayArea" class="model-lines" style="display: none;">
+            <div class="model-title">📝 Our 10-Line Model Paragraph:</div>
+            <ul id="modelLinesList" class="lines-container"></ul>
+        </div>
+    </div>
+    <div class="footer-note">🔊 For each keyword, tap RECORD → speak the word/sentence → STOP → then PLAY to hear. When all 10 are recorded, click "Show Me" for a descriptive model. Practice daily!</div>
+</div>
+
+<script>
+    // --------------------------------------------------------------
+    // 25 DESCRIPTIVE WRITING TOPICS (ENGLISH) for grades 5-8
+    // Each topic: name, 10 keywords, 10 model lines (simple, vivid)
+    // --------------------------------------------------------------
+    const topicsData = [
+        { id:0, name:"My School", keywords:["classroom","teacher","library","playground","assembly","desks","blackboard","friends","principal","projects"], modelLines:["My school is called 'Sunrise Public School'.","It has a big green playground where we play daily.","Our classrooms are bright and full of charts.","The teachers are kind and help us learn.","We have a library with hundreds of storybooks.","Every morning we sing the national anthem in assembly.","I love the science lab where we do experiments.","My best friend sits next to me during class.","The principal encourages us to work hard.","School is my second home – I love going there!"] },
+        { id:1, name:"My Family", keywords:["mother","father","siblings","grandparents","love","support","dinner","laughter","traditions","home"], modelLines:["My family is small but full of love.","My mother is a teacher, she helps me with homework.","Father works in an office and plays cricket with me.","I have one elder brother – we share everything.","Grandparents tell me bedtime stories.","Every evening we eat dinner together.","We celebrate festivals with lots of sweets and fun.","My family supports me in every dream.","I help my mom in the garden on weekends.","Family is the greatest treasure in my life."] },
+        { id:2, name:"Rainy Season", keywords:["clouds","thunder","puddles","raincoat","umbrella","frogs","peacock","wet soil","rainbow","cool breeze"], modelLines:["The rainy season arrives in July.","Dark clouds cover the sky and thunder rumbles.","I love jumping in fresh puddles with my boots.","The earth smells lovely after the first shower.","Peacocks dance and frogs croak all around.","We sail paper boats in the rainwater stream.","Everything becomes green and fresh.","Sometimes we see a beautiful rainbow after rain.","I like to sit by the window and sip hot tea.","Rainy days make nature look magical."] },
+        { id:3, name:"A Beautiful Garden", keywords:["roses","marigolds","butterflies","bees","fountain","grass","bench","fragrance","sunlight","squirrels"], modelLines:["My grandmother’s garden is a riot of colors.","Roses, marigolds, and sunflowers bloom in rows.","Butterflies flutter from flower to flower.","Bees hum while collecting nectar.","A small fountain adds a peaceful sound.","The grass is soft and perfect for sitting.","I love reading on the wooden bench there.","The sweet fragrance fills the morning air.","Squirrels chase each other up the trees.","It’s my favorite spot to relax and dream."] },
+        { id:4, name:"A Visit to the Beach", keywords:["waves","sand","seashells","sunset","seagulls","sandcastle","ocean","breeze","tide","picnic"], modelLines:["Last summer we visited Puri beach.","The waves crashed with a loud roar.","I built a huge sandcastle near the shore.","We collected many colorful seashells.","Seagulls flew above, searching for fish.","The sunset painted the sky in orange and pink.","Cool breeze made the heat bearable.","Mom packed a yummy picnic with sandwiches.","The tide came in and washed our castle away.","The beach is my happy place forever."] },
+        { id:5, name:"Diwali Festival", keywords:["lights","diya","rangoli","firecrackers","sweets","new clothes","family","goddess","sparklers","celebration"], modelLines:["Diwali is the festival of lights.","We clean our house and decorate with diyas.","Rangoli designs at the entrance look beautiful.","I wear new traditional clothes.","We burst crackers safely in the evening.","My mother makes delicious ladoos and barfis.","We visit relatives and exchange sweets.","At night we pray to Goddess Lakshmi.","Sparklers make funny shapes in the dark.","Diwali brings happiness and togetherness."] },
+        { id:6, name:"Summer Vacation", keywords:["mangoes","pool","travel","ice cream","sleep","cousins","water park","mango shake","vacation","fun"], modelLines:["Summer vacation means no school for two months.","I wake up late and enjoy lazy mornings.","We eat juicy mangoes every day.","My cousins come over to play board games.","We go to the water park to beat the heat.","Evenings are for ice cream and lemonade.","This year we traveled to the mountains.","I learned to ride a bicycle this vacation.","I also finished a big storybook.","Summer break is full of great memories."] },
+        { id:7, name:"My Favorite Sport (Cricket)", keywords:["bat","ball","wicket","team","run","catch","stadium","practice","tournament","cheer"], modelLines:["Cricket is my absolute favorite sport.","I play with my friends every evening.","Our team has a name – ‘Thunder Strikers’.","I am a batsman and I love hitting boundaries.","Bowling a perfect yorker is also exciting.","We practice catches on the school ground.","Last month we won a local tournament.","Watching IPL matches on TV is thrilling.","My dad gifted me a new cricket bat.","Cricket teaches teamwork and patience."] },
+        { id:8, name:"Wild Animals", keywords:["lion","elephant","tiger","forest","zoo","habitat","safari","roar","trunk","stripes"], modelLines:["Wild animals live in jungles and national parks.","The lion is known as the king of the jungle.","Elephants have long trunks and big ears.","Tigers have beautiful orange and black stripes.","We visited a zoo and saw a giraffe too.","Forests are their natural homes.","A jungle safari is an amazing adventure.","The roar of a lion can be heard from far away.","We must protect wildlife from poachers.","Wild animals make our planet diverse and exciting."] },
+        { id:9, name:"Library – My Treasure House", keywords:["books","silence","reading","knowledge","shelves","librarian","stories","study","encyclopedia","magazine"], modelLines:["Our school library is a quiet paradise.","Thousands of books sit neatly on shelves.","I love reading adventure stories and comics.","The librarian helps us find good books.","We can borrow two books every week.","I discovered an encyclopedia about space.","The reading corner has soft cushions.","Silence in the library helps me focus.","Magazines keep me updated with fun facts.","A library is a treasure house of wisdom."] },
+        { id:10, name:"My Village", keywords:["fields","farmers","pond","temple","cattle","well","simplicity","festival","harvest","fresh air"], modelLines:["My village is called 'Shantipur'.","Green paddy fields stretch as far as I can see.","Farmers work hard from morning to evening.","A big pond is home to ducks and lotus flowers.","We have an old temple where people pray.","Cows and buffaloes roam the village paths.","The air is fresh and free of pollution.","During harvest season, everyone celebrates.","I love spending summer holidays there.","Village life is simple and peaceful."] },
+        { id:11, name:"Health is Wealth", keywords:["exercise","fruits","vegetables","sleep","water","doctor","hygiene","running","energy","fit"], modelLines:["Good health is the real wealth.","I wake up early and do stretching exercises.","Eating fruits and vegetables gives me energy.","I drink at least 6 glasses of water daily.","Brushing teeth and washing hands keep germs away.","I sleep for 8 hours every night.","Playing outdoors makes my body strong.","Too much screen time is bad for eyes.","Visiting the doctor for checkups is smart.","A healthy body leads to a happy mind."] },
+        { id:12, name:"My City / Town", keywords:["market","traffic","buildings","park","busy","shops","streetlights","pollution","crowd","metro"], modelLines:["I live in a busy city called Springfield.","Tall buildings and neon lights are everywhere.","The market is crowded with shoppers.","Traffic jams happen during rush hours.","We have a beautiful central park for families.","Streetlights make the city bright at night.","People walk fast and talk on phones.","Air pollution is a problem we need to solve.","There are many malls and movie theaters.","Life here is fast but exciting."] },
+        { id:13, name:"Holi – The Festival of Colors", keywords:["colors","gulal","water gun","sweets","dance","music","joy","friends","pichkari","tradition"], modelLines:["Holi is my most colorful festival.","We play with dry gulal and water balloons.","My friends chase me with water guns.","Everyone looks like a rainbow.","We make gujiya and thandai at home.","Drums and music fill the neighborhood.","I love smearing colors on my sister’s face.","The festival brings people together.","In the evening we clean up and eat sweets.","Holi spreads joy and forgiveness."] },
+        { id:14, name:"A River", keywords:["water","flow","boat","fish","bridge","bank","clean","current","serene","reflection"], modelLines:["The river near my town is called the Blueflow.","It flows gently between green hills.","Fishermen row small wooden boats.","Colorful fish swim near the rocks.","A old bridge connects both banks.","The water is cool and clear.","I love watching the sunset reflection on it.","During summer, the current becomes slow.","People come to the river to relax.","Rivers are the lifelines of nature."] },
+        { id:15, name:"Mountain Adventure", keywords:["peak","snow","trek","valley","eagle","clouds","camp","rope","view","breeze"], modelLines:["Last year I went to the Himalayas.","The mountains touched the clouds.","We trekked for hours through pine forests.","Snow covered the highest peaks.","A eagle soared high above us.","The valley looked like a green carpet.","We set up a camp near a waterfall.","The morning view was breathtaking.","Fresh breeze filled my lungs.","Mountains teach us to be strong and patient."] },
+        { id:16, name:"My Best Friend", keywords:["trust","share","laugh","secret","support","school","loyal","fun","play","understanding"], modelLines:["My best friend's name is Aryan.","We have been friends since first grade.","He always shares his lunch with me.","We laugh at silly jokes together.","I tell him all my secrets without fear.","When I am sad, he cheers me up.","We study together for exams.","He is loyal and never breaks a promise.","We play football every evening.","A true friend is a gift forever."] },
+        { id:17, name:"Toy Store", keywords:["dolls","cars","soft toys","puzzles","action figures","remote control","colorful","shelves","games","birthday"], modelLines:["The toy store near my house is magical.","Rows of teddy bears smile from shelves.","Remote control cars zoom on a demo track.","Barbie dolls wear glittering dresses.","Jigsaw puzzles challenge my brain.","Action figures of superheroes are my favorite.","The whole store is bright and colorful.","I love the smell of new plastic and cardboard.","Every birthday, I get to pick one toy.","Walking into a toy store feels like a dream."] },
+        { id:18, name:"My Bedroom", keywords:["bed","desk","poster","lamp","bookshelf","window","closet","carpet","study","personal"], modelLines:["My bedroom is my cozy sanctuary.","My bed has a superhero bedsheet.","A wooden desk holds my laptop and notebooks.","There is a Star Wars poster on the wall.","The lamp gives warm light for night reading.","My bookshelf is stuffed with novels.","I can see the garden from my window.","The closet keeps my clothes tidy.","A soft carpet covers the floor.","I decorate it with my own drawings."] },
+        { id:19, name:"Birds and Their Beauty", keywords:["sparrow","parrot","peacock","eagle","nest","feathers","chirp","fly","sky","wings"], modelLines:["Birds add melody to our mornings.","Sparrows hop on the window sill.","Parrots mimic sounds and talk.","Peacocks dance during the monsoon.","Eagles soar high with strong wings.","They build nests on tree branches.","Feathers come in many colors.","Chirping wakes me up at sunrise.","Watching birds fly freely makes me happy.","We should protect birds and their homes."] },
+        { id:20, name:"Winter Season", keywords:["fog","woolen","blanket","hot chocolate","fireplace","sweater","short days","cold","frost","snow"], modelLines:["Winter arrives with chilly mornings.","Thick fog hides the sun until late.","I wear woolen sweaters and gloves.","Snuggling under a blanket feels wonderful.","Mom makes hot chocolate every evening.","Our room has a small fireplace.","Days are short, and nights are long.","The grass is covered with frost at dawn.","I love watching snow fall from my window.","Winter is the season of warmth and togetherness."] },
+        { id:21, name:"My Dream", keywords:["aspiration","doctor","teacher","pilot","engineer","artist","hard work","goal","inspire","future"], modelLines:["My biggest dream is to become a pilot.","I want to fly airplanes across the world.","Seeing clouds from above is my fantasy.","I study math and science with full focus.","My parents inspire me to never give up.","I practice speaking English confidently.","I watch videos of pilots on YouTube.","Hard work and discipline will lead me there.","One day I want to make my family proud.","Dreams give direction to our lives."] },
+        { id:22, name:"Importance of Trees", keywords:["oxygen","shade","fruit","wood","medicine","green","environment","plant","rain","clean air"], modelLines:["Trees are the lungs of our planet.","They give us oxygen to breathe.","We enjoy cool shade under them in summer.","Fruits like mango and apple come from trees.","Wood is used for furniture and paper.","Neem and tulsi have medicinal properties.","A green environment keeps us healthy.","Trees attract rain and prevent floods.","We must plant more trees everywhere.","Save trees, save life."] },
+        { id:23, name:"Computer – A Magic Machine", keywords:["keyboard","screen","mouse","internet","games","software","typing","coding","information","smart"], modelLines:["Computers have become part of our daily life.","I use the keyboard to type stories.","The mouse helps me click and draw.","Internet connects me to the world.","Educational games make learning fun.","I am learning scratch coding online.","We can store thousands of photos and files.","Video calls with cousins feel magical.","But too much use harms eyes.","Computers are smart tools – use them wisely."] },
+        { id:24, name:"Travel and Tourism", keywords:["journey","train","hotel","monument","ticket","sightseeing","camera","backpack","adventure","culture"], modelLines:["Traveling opens our minds to new places.","Last year we went to the Taj Mahal by train.","We booked a hotel near the river.","Seeing historical monuments is fascinating.","Mom bought tickets online easily.","I clicked many photos with my new camera.","My backpack carried snacks and water.","We tried local food and learned new customs.","Travel is the best form of education.","Every trip becomes a sweet memory."] }
+    ];
+
+    // ----- GLOBALS -----
+    let mediaStream = null;
+    let currentTopicIndex = 0;
+    let recordings = []; // each: { blobUrl, recorded, chunks, isRecording }
+    let activeRecorderIndex = null;
+    let currentMediaRecorder = null;
+
+    const topicSelect = document.getElementById("topicSelect");
+    const keywordsContainer = document.getElementById("keywordsContainer");
+    const recordedCountSpan = document.getElementById("recordedCount");
+    const totalKeywordsSpan = document.getElementById("totalKeywords");
+    const showMeBtn = document.getElementById("showMeBtn");
+    const modelDisplayArea = document.getElementById("modelDisplayArea");
+    const modelLinesList = document.getElementById("modelLinesList");
+
+    totalKeywordsSpan.innerText = "10";
+
+    async function initMicrophone() {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            mediaStream = stream;
+            return true;
+        } catch (err) {
+            console.warn("Microphone permission denied", err);
+            const warnDiv = document.createElement("div");
+            warnDiv.className = "permission-warning";
+            warnDiv.innerText = "⚠️ Microphone access needed for voice recording. Please allow and refresh.";
+            keywordsContainer.prepend(warnDiv);
+            return false;
+        }
+    }
+
+    function clearAllRecordingURLs() {
+        if (recordings) {
+            recordings.forEach(rec => {
+                if (rec.blobUrl) URL.revokeObjectURL(rec.blobUrl);
+            });
+        }
+    }
+
+    function loadTopic(index) {
+        const topic = topicsData[index];
+        if (!topic) return;
+        clearAllRecordingURLs();
+        recordings = new Array(10).fill(null).map(() => ({ blobUrl: null, recorded: false, recorder: null, chunks: [], isRecording: false }));
+        renderKeywords(topic);
+        updateProgress();
+        modelDisplayArea.style.display = "none";
+        if (currentMediaRecorder && activeRecorderIndex !== null) {
+            try { currentMediaRecorder.stop(); } catch(e) {}
+            currentMediaRecorder = null;
+            activeRecorderIndex = null;
+        }
+    }
+
+    function updateProgress() {
+        const completed = recordings.filter(r => r.recorded === true).length;
+        recordedCountSpan.innerText = completed;
+    }
+
+    function renderKeywords(topic) {
+        keywordsContainer.innerHTML = "";
+        topic.keywords.forEach((kw, idx) => {
+            const card = document.createElement("div");
+            card.className = "keyword-card";
+            const recordedStatus = recordings[idx]?.recorded || false;
+            card.innerHTML = `
+                <div class="keyword-info">
+                    <div class="keyword-number">${idx+1}</div>
+                    <span class="keyword-label">${kw}</span>
+                    <span class="status-dot ${recordedStatus ? 'recorded' : ''}" id="statusDot_${idx}"></span>
+                </div>
+                <div class="audio-actions" id="actions_${idx}">
+                    <button class="btn-icon btn-record" data-idx="${idx}" id="recordBtn_${idx}">🎙️ Record</button>
+                    <button class="btn-icon btn-stop" data-idx="${idx}" id="stopBtn_${idx}" style="display:${recordings[idx]?.isRecording ? 'inline-flex' : 'none'}">⏹️ Stop</button>
+                    <button class="btn-icon btn-play" data-idx="${idx}" id="playBtn_${idx}" ${!recordedStatus ? 'disabled' : ''}>🔊 Play</button>
+                </div>
+            `;
+            keywordsContainer.appendChild(card);
+        });
+
+        for (let i = 0; i < topic.keywords.length; i++) {
+            const recordBtn = document.getElementById(`recordBtn_${i}`);
+            const stopBtn = document.getElementById(`stopBtn_${i}`);
+            const playBtn = document.getElementById(`playBtn_${i}`);
+            if (recordBtn) recordBtn.addEventListener("click", () => startRecording(i));
+            if (stopBtn) stopBtn.addEventListener("click", () => stopRecording(i));
+            if (playBtn) playBtn.addEventListener("click", () => playRecording(i));
+        }
+    }
+
+    async function startRecording(idx) {
+        if (!mediaStream) {
+            const granted = await initMicrophone();
+            if (!granted) { alert("Microphone permission required to record."); return; }
+        }
+        if (recordings[idx].isRecording) return;
+        if (currentMediaRecorder && activeRecorderIndex !== null && activeRecorderIndex !== idx) {
+            try { currentMediaRecorder.stop(); } catch(e) {}
+            updateStopUI(activeRecorderIndex);
+        }
+        const chunks = [];
+        const recorder = new MediaRecorder(mediaStream);
+        recorder.ondataavailable = (e) => { if (e.data.size > 0) chunks.push(e.data); };
+        recorder.onstop = () => {
+            const blob = new Blob(chunks, { type: 'audio/webm' });
+            const url = URL.createObjectURL(blob);
+            if (recordings[idx].blobUrl) URL.revokeObjectURL(recordings[idx].blobUrl);
+            recordings[idx].blobUrl = url;
+            recordings[idx].recorded = true;
+            recordings[idx].chunks = [];
+            recordings[idx].isRecording = false;
+            updateProgress();
+            const statusDot = document.getElementById(`statusDot_${idx}`);
+            if (statusDot) statusDot.classList.add("recorded");
+            const playBtn = document.getElementById(`playBtn_${idx}`);
+            if (playBtn) playBtn.disabled = false;
+            const stopBtn = document.getElementById(`stopBtn_${idx}`);
+            if (stopBtn) stopBtn.style.display = "none";
+            const recordBtn = document.getElementById(`recordBtn_${idx}`);
+            if (recordBtn) { recordBtn.style.display = "inline-flex"; recordBtn.classList.remove("recording-active"); }
+            if (activeRecorderIndex === idx) activeRecorderIndex = null;
+            currentMediaRecorder = null;
+        };
+        recorder.start();
+        recordings[idx].recorder = recorder;
+        recordings[idx].chunks = chunks;
+        recordings[idx].isRecording = true;
+        currentMediaRecorder = recorder;
+        activeRecorderIndex = idx;
+
+        const stopBtn = document.getElementById(`stopBtn_${idx}`);
+        if (stopBtn) stopBtn.style.display = "inline-flex";
+        const recordBtn = document.getElementById(`recordBtn_${idx}`);
+        if (recordBtn) { recordBtn.style.display = "none"; recordBtn.classList.add("recording-active"); }
+    }
+
+    function stopRecording(idx) {
+        if (recordings[idx].isRecording && recordings[idx].recorder && recordings[idx].recorder.state === "recording") {
+            recordings[idx].recorder.stop();
+        }
+        updateStopUI(idx);
+    }
+
+    function updateStopUI(idx) {
+        const stopBtn = document.getElementById(`stopBtn_${idx}`);
+        if (stopBtn) stopBtn.style.display = "none";
+        const recordBtn = document.getElementById(`recordBtn_${idx}`);
+        if (recordBtn) { recordBtn.style.display = "inline-flex"; recordBtn.classList.remove("recording-active"); }
+        if (recordings[idx]) recordings[idx].isRecording = false;
+    }
+
+    function playRecording(idx) {
+        if (recordings[idx].recorded && recordings[idx].blobUrl) {
+            const audio = new Audio(recordings[idx].blobUrl);
+            audio.play().catch(e => console.warn("play err", e));
+        } else {
+            alert("Please record first.");
+        }
+    }
+
+    function showModelLines() {
+        const topic = topicsData[currentTopicIndex];
+        if (!topic) return;
+        modelLinesList.innerHTML = "";
+        topic.modelLines.forEach(line => {
+            const li = document.createElement("li");
+            li.textContent = line;
+            modelLinesList.appendChild(li);
+        });
+        modelDisplayArea.style.display = "block";
+        modelDisplayArea.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+
+    function populateTopics() {
+        topicsData.forEach((topic, idx) => {
+            const option = document.createElement("option");
+            option.value = idx;
+            option.textContent = `${idx+1}. ${topic.name}`;
+            topicSelect.appendChild(option);
+        });
+        topicSelect.value = "0";
+        currentTopicIndex = 0;
+        loadTopic(0);
+    }
+
+    topicSelect.addEventListener("change", (e) => {
+        const newIdx = parseInt(e.target.value);
+        if (!isNaN(newIdx) && newIdx !== currentTopicIndex) {
+            currentTopicIndex = newIdx;
+            loadTopic(newIdx);
+        }
+    });
+
+    showMeBtn.addEventListener("click", showModelLines);
+
+    initMicrophone().then(() => populateTopics()).catch(() => populateTopics());
+</script>
+</body>
+</html>
